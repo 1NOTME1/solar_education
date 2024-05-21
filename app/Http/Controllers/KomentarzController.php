@@ -2,64 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Komentarz;
+use App\Models\Post;
+use App\Models\Uzytkownik;
 use Illuminate\Http\Request;
 
 class KomentarzController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $komentarze = Komentarz::all();
+        return view('komentarze.index', compact('komentarze'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $posty = Post::all();
+        $uzytkownicy = Uzytkownik::all();
+        return view('komentarze.create', compact('posty', 'uzytkownicy'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tresc' => 'required',
+            'post_id' => 'required|exists:posty,id',
+            'uzytkownik_id' => 'required|exists:uzytkownicy,id',
+        ]);
+
+        Komentarz::create($request->all());
+
+        return redirect()->route('komentarze.index')
+                        ->with('success', 'Komentarz został dodany.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Komentarz $komentarz)
     {
-        //
+        return view('komentarze.show', compact('komentarz'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Komentarz $komentarz)
     {
-        //
+        $posty = Post::all();
+        $uzytkownicy = Uzytkownik::all();
+        return view('komentarze.edit', compact('komentarz', 'posty', 'uzytkownicy'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Komentarz $komentarz)
     {
-        //
+        $request->validate([
+            'tresc' => 'required',
+            'post_id' => 'required|exists:posty,id',
+            'uzytkownik_id' => 'required|exists:uzytkownicy,id',
+        ]);
+
+        $komentarz->update($request->all());
+
+        return redirect()->route('komentarze.index')
+                        ->with('success', 'Komentarz został zaktualizowany.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Komentarz $komentarz)
     {
-        //
+        $komentarz->delete();
+
+        return redirect()->route('komentarze.index')
+                        ->with('success', 'Komentarz został usunięty.');
     }
 }

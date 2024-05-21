@@ -2,64 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Zjawisko;
+use App\Models\KategorieZjawisk;
 use Illuminate\Http\Request;
 
 class ZjawiskoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $zjawiska = Zjawisko::all();
+        return view('zjawiska.index', compact('zjawiska'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $kategorie = KategorieZjawisk::all();
+        return view('zjawiska.create', compact('kategorie'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nazwa' => 'required',
+            'data_zjawiska' => 'required|date',
+            'kategoria_id' => 'required|exists:kategorie_zjawisk,id',
+        ]);
+
+        Zjawisko::create($request->all());
+
+        return redirect()->route('zjawiska.index')
+                        ->with('success', 'Zjawisko zostało dodane.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Zjawisko $zjawisko)
     {
-        //
+        return view('zjawiska.show', compact('zjawisko'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Zjawisko $zjawisko)
     {
-        //
+        $kategorie = KategorieZjawisk::all();
+        return view('zjawiska.edit', compact('zjawisko', 'kategorie'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Zjawisko $zjawisko)
     {
-        //
+        $request->validate([
+            'nazwa' => 'required',
+            'data_zjawiska' => 'required|date',
+            'kategoria_id' => 'required|exists:kategorie_zjawisk,id',
+        ]);
+
+        $zjawisko->update($request->all());
+
+        return redirect()->route('zjawiska.index')
+                        ->with('success', 'Zjawisko zostało zaktualizowane.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Zjawisko $zjawisko)
     {
-        //
+        $zjawisko->delete();
+
+        return redirect()->route('zjawiska.index')
+                        ->with('success', 'Zjawisko zostało usunięte.');
     }
 }

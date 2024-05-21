@@ -2,64 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Watek;
+use App\Models\KategorieForum;
+use App\Models\Uzytkownik;
 use Illuminate\Http\Request;
 
 class WatekController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $watki = Watek::all();
+        return view('watki.index', compact('watki'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $kategorie_forum = KategorieForum::all();
+        $uzytkownicy = Uzytkownik::all();
+        return view('watki.create', compact('kategorie_forum', 'uzytkownicy'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tytul' => 'required',
+            'kategoria_forum_id' => 'required|exists:kategorie_forum,id',
+            'uzytkownik_id' => 'required|exists:uzytkownicy,id',
+        ]);
+
+        Watek::create($request->all());
+
+        return redirect()->route('watki.index')
+                        ->with('success', 'Wątek został dodany.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Watek $watek)
     {
-        //
+        return view('watki.show', compact('watek'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Watek $watek)
     {
-        //
+        $kategorie_forum = KategorieForum::all();
+        $uzytkownicy = Uzytkownik::all();
+        return view('watki.edit', compact('watek', 'kategorie_forum', 'uzytkownicy'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Watek $watek)
     {
-        //
+        $request->validate([
+            'tytul' => 'required',
+            'kategoria_forum_id' => 'required|exists:kategorie_forum,id',
+            'uzytkownik_id' => 'required|exists:uzytkownicy,id',
+        ]);
+
+        $watek->update($request->all());
+
+        return redirect()->route('watki.index')
+                        ->with('success', 'Wątek został zaktualizowany.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Watek $watek)
     {
-        //
+        $watek->delete();
+
+        return redirect()->route('watki.index')
+                        ->with('success', 'Wątek został usunięty.');
     }
 }

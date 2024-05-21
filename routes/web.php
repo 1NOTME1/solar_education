@@ -1,6 +1,5 @@
 <?php
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\KategorieZjawiskController;
 use App\Http\Controllers\KategorieForumController;
@@ -11,6 +10,10 @@ use App\Http\Controllers\UzytkownikController;
 use App\Http\Controllers\WatekController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\KomentarzController;
+
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::resource('role', RoleController::class);
 Route::resource('kategorie_zjawisk', KategorieZjawiskController::class);

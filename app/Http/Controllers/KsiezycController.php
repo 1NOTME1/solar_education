@@ -2,64 +2,66 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Ksiezyc;
+use App\Models\Planeta;
 use Illuminate\Http\Request;
 
 class KsiezycController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $ksiezyce = Ksiezyc::all();
+        return view('ksiezyce.index', compact('ksiezyce'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $planety = Planeta::all();
+        return view('ksiezyce.create', compact('planety'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nazwa' => 'required',
+            'planeta_id' => 'required|exists:planety,id',
+        ]);
+
+        Ksiezyc::create($request->all());
+
+        return redirect()->route('ksiezyce.index')
+                        ->with('success', 'Księżyc został dodany.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Ksiezyc $ksiezyc)
     {
-        //
+        return view('ksiezyce.show', compact('ksiezyc'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Ksiezyc $ksiezyc)
     {
-        //
+        $planety = Planeta::all();
+        return view('ksiezyce.edit', compact('ksiezyc', 'planety'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Ksiezyc $ksiezyc)
     {
-        //
+        $request->validate([
+            'nazwa' => 'required',
+            'planeta_id' => 'required|exists:planety,id',
+        ]);
+
+        $ksiezyc->update($request->all());
+
+        return redirect()->route('ksiezyce.index')
+                        ->with('success', 'Księżyc został zaktualizowany.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Ksiezyc $ksiezyc)
     {
-        //
+        $ksiezyc->delete();
+
+        return redirect()->route('ksiezyce.index')
+                        ->with('success', 'Księżyc został usunięty.');
     }
 }

@@ -2,64 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\KategorieForum;
 use Illuminate\Http\Request;
 
 class KategorieForumController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $kategorie_forum = KategorieForum::all();
+        return view('kategorie_forum.index', compact('kategorie_forum'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('kategorie_forum.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nazwa' => 'required',
+        ]);
+
+        KategorieForum::create($request->all());
+
+        return redirect()->route('kategorie_forum.index')
+                        ->with('success', 'Kategoria forum została dodana.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(KategorieForum $kategorie_forum)
     {
-        //
+        return view('kategorie_forum.show', compact('kategorie_forum'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(KategorieForum $kategorie_forum)
     {
-        //
+        return view('kategorie_forum.edit', compact('kategorie_forum'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, KategorieForum $kategorie_forum)
     {
-        //
+        $request->validate([
+            'nazwa' => 'required',
+        ]);
+
+        $kategorie_forum->update($request->all());
+
+        return redirect()->route('kategorie_forum.index')
+                        ->with('success', 'Kategoria forum została zaktualizowana.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(KategorieForum $kategorie_forum)
     {
-        //
+        $kategorie_forum->delete();
+
+        return redirect()->route('kategorie_forum.index')
+                        ->with('success', 'Kategoria forum została usunięta.');
     }
 }

@@ -2,64 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Planeta;
 use Illuminate\Http\Request;
 
 class PlanetaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $planety = Planeta::all();
+        return view('planety.index', compact('planety'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('planety.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nazwa' => 'required',
+            'typ' => 'required',
+            'masa' => 'required|numeric',
+            'odleglosc_od_slonca' => 'required|numeric',
+        ]);
+
+        Planeta::create($request->all());
+
+        return redirect()->route('planety.index')
+                        ->with('success', 'Planeta została dodana.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Planeta $planeta)
     {
-        //
+        return view('planety.show', compact('planeta'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Planeta $planeta)
     {
-        //
+        return view('planety.edit', compact('planeta'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Planeta $planeta)
     {
-        //
+        $request->validate([
+            'nazwa' => 'required',
+            'typ' => 'required',
+            'masa' => 'required|numeric',
+            'odleglosc_od_slonca' => 'required|numeric',
+        ]);
+
+        $planeta->update($request->all());
+
+        return redirect()->route('planety.index')
+                        ->with('success', 'Planeta została zaktualizowana.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Planeta $planeta)
     {
-        //
+        $planeta->delete();
+
+        return redirect()->route('planety.index')
+                        ->with('success', 'Planeta została usunięta.');
     }
 }

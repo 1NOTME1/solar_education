@@ -2,64 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\KategorieZjawisk;
 use Illuminate\Http\Request;
 
 class KategorieZjawiskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $kategorie_zjawisk = KategorieZjawisk::all();
+        return view('kategorie_zjawisk.index', compact('kategorie_zjawisk'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('kategorie_zjawisk.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nazwa' => 'required',
+        ]);
+
+        KategorieZjawisk::create($request->all());
+
+        return redirect()->route('kategorie_zjawisk.index')
+                        ->with('success', 'Kategoria zjawisk została dodana.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(KategorieZjawisk $kategorie_zjawisk)
     {
-        //
+        return view('kategorie_zjawisk.show', compact('kategorie_zjawisk'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(KategorieZjawisk $kategorie_zjawisk)
     {
-        //
+        return view('kategorie_zjawisk.edit', compact('kategorie_zjawisk'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, KategorieZjawisk $kategorie_zjawisk)
     {
-        //
+        $request->validate([
+            'nazwa' => 'required',
+        ]);
+
+        $kategorie_zjawisk->update($request->all());
+
+        return redirect()->route('kategorie_zjawisk.index')
+                        ->with('success', 'Kategoria zjawisk została zaktualizowana.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(KategorieZjawisk $kategorie_zjawisk)
     {
-        //
+        $kategorie_zjawisk->delete();
+
+        return redirect()->route('kategorie_zjawisk.index')
+                        ->with('success', 'Kategoria zjawisk została usunięta.');
     }
 }

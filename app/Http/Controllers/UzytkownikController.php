@@ -2,64 +2,75 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Uzytkownik;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class UzytkownikController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $uzytkownicy = Uzytkownik::all();
+        return view('uzytkownicy.index', compact('uzytkownicy'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $role = Role::all();
+        return view('uzytkownicy.create', compact('role'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nazwa_uzytkownika' => 'required',
+            'email' => 'required|email|unique:uzytkownicy',
+            'haslo' => 'required|min:6',
+            'rola_id' => 'required|exists:role,id',
+        ]);
+
+        $uzytkownik = new Uzytkownik($request->all());
+        $uzytkownik->haslo = bcrypt($request->haslo);
+        $uzytkownik->save();
+
+        return redirect()->route('uzytkownicy.index')
+                        ->with('success', 'Użytkownik został dodany.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Uzytkownik $uzytkownik)
     {
-        //
+        return view('uzytkownicy.show', compact('uzytkownik'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Uzytkownik $uzytkownik)
     {
-        //
+        $role = Role::all();
+        return view('uzytkownicy.edit', compact('uzytkownik', 'role'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Uzytkownik $uzytkownik)
     {
-        //
+        $request->validate([
+            'nazwa_uzytkownika' => 'required',
+            'email' => 'required|email|unique:uzytkownicy,email,'.$uzytkownik->id,
+            'rola_id' => 'required|exists:role,id',
+        ]);
+
+        $uzytkownik->update($request->all());
+        if ($request->haslo) {
+            $uzytkownik->haslo = bcrypt($request->haslo);
+            $uzytkownik->save();
+        }
+
+        return redirect()->route('uzytkownicy.index')
+                        ->with('success', 'Użytkownik został zaktualizowany.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Uzytkownik $uzytkownik)
     {
-        //
+        $uzytkownik->delete();
+
+        return redirect()->route('uzytkownicy.index')
+                        ->with('success', 'Użytkownik został usunięty.');
     }
 }

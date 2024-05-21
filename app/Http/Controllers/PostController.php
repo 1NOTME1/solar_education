@@ -2,64 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Post;
+use App\Models\Watek;
+use App\Models\Uzytkownik;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $posty = Post::all();
+        return view('posty.index', compact('posty'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $watki = Watek::all();
+        $uzytkownicy = Uzytkownik::all();
+        return view('posty.create', compact('watki', 'uzytkownicy'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tresc' => 'required',
+            'watek_id' => 'required|exists:watki,id',
+            'uzytkownik_id' => 'required|exists:uzytkownicy,id',
+        ]);
+
+        Post::create($request->all());
+
+        return redirect()->route('posty.index')
+                        ->with('success', 'Post został dodany.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        //
+        return view('posty.show', compact('post'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        //
+        $watki = Watek::all();
+        $uzytkownicy = Uzytkownik::all();
+        return view('posty.edit', compact('post', 'watki', 'uzytkownicy'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'tresc' => 'required',
+            'watek_id' => 'required|exists:watki,id',
+            'uzytkownik_id' => 'required|exists:uzytkownicy,id',
+        ]);
+
+        $post->update($request->all());
+
+        return redirect()->route('posty.index')
+                        ->with('success', 'Post został zaktualizowany.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()->route('posty.index')
+                        ->with('success', 'Post został usunięty.');
     }
 }
