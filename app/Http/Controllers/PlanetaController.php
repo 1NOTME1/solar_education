@@ -30,7 +30,7 @@ class PlanetaController extends Controller
         Planeta::create($request->all());
 
         return redirect()->route('planety.index')
-                        ->with('success', 'Planeta została dodana.');
+            ->with('success', 'Planeta została dodana.');
     }
 
     public function show(Planeta $planeta)
@@ -38,12 +38,15 @@ class PlanetaController extends Controller
         return view('planety.show', compact('planeta'));
     }
 
-    public function edit(Planeta $planeta)
+
+    public function edit($id)
     {
+        $planeta = Planeta::findOrFail($id);
         return view('planety.edit', compact('planeta'));
     }
 
-    public function update(Request $request, Planeta $planeta)
+
+    public function update(Request $request, $id)
     {
         $request->validate([
             'nazwa' => 'required',
@@ -52,17 +55,20 @@ class PlanetaController extends Controller
             'odleglosc_od_slonca' => 'required|numeric',
         ]);
 
+        $planeta = Planeta::findOrFail($id);
         $planeta->update($request->all());
 
         return redirect()->route('planety.index')
-                        ->with('success', 'Planeta została zaktualizowana.');
+                         ->with('success', 'Planeta została zaktualizowana.');
     }
 
-    public function destroy(Planeta $planeta)
+    public function destroy($id)
     {
-        $planeta->delete();
+        $planeta = Planeta::findOrFail($id);
+        $planeta->status = 0;
+        $planeta->save();
 
         return redirect()->route('planety.index')
-                        ->with('success', 'Planeta została usunięta.');
+                         ->with('success', 'Planeta została dezaktywowana.');
     }
 }
