@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KategorieForum;
+use App\Models\KategoriaForum;
 use Illuminate\Http\Request;
 
 class KategorieForumController extends Controller
 {
     public function index()
     {
-        $kategorie_forum = KategorieForum::all();
+        $kategorie_forum = KategoriaForum::all();
         return view('kategorie_forum.index', compact('kategorie_forum'));
     }
 
@@ -24,23 +24,23 @@ class KategorieForumController extends Controller
             'nazwa' => 'required',
         ]);
 
-        KategorieForum::create($request->all());
+        KategoriaForum::create($request->all());
 
         return redirect()->route('kategorie_forum.index')
                         ->with('success', 'Kategoria forum została dodana.');
     }
 
-    public function show(KategorieForum $kategorie_forum)
+    public function show(KategoriaForum $kategorie_forum)
     {
         return view('kategorie_forum.show', compact('kategorie_forum'));
     }
 
-    public function edit(KategorieForum $kategorie_forum)
+    public function edit(KategoriaForum $kategorie_forum)
     {
         return view('kategorie_forum.edit', compact('kategorie_forum'));
     }
 
-    public function update(Request $request, KategorieForum $kategorie_forum)
+    public function update(Request $request, KategoriaForum $kategorie_forum)
     {
         $request->validate([
             'nazwa' => 'required',
@@ -52,7 +52,7 @@ class KategorieForumController extends Controller
                         ->with('success', 'Kategoria forum została zaktualizowana.');
     }
 
-    public function destroy(KategorieForum $kategorie_forum)
+    public function destroy(KategoriaForum $kategorie_forum)
     {
         $kategorie_forum->delete();
 

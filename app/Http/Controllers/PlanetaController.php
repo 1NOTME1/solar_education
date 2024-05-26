@@ -38,13 +38,11 @@ class PlanetaController extends Controller
         return view('planety.show', compact('planeta'));
     }
 
-
     public function edit($id)
     {
         $planeta = Planeta::findOrFail($id);
         return view('planety.edit', compact('planeta'));
     }
-
 
     public function update(Request $request, $id)
     {
@@ -71,4 +69,6 @@ class PlanetaController extends Controller
         return redirect()->route('planety.index')
                          ->with('success', 'Planeta została dezaktywowana.');
     }
+
+
 }
