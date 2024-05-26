@@ -10,13 +10,8 @@ class Zjawisko extends Model
     use HasFactory;
 
     protected $table = 'zjawiska';
-
-    protected $fillable = [
-        'nazwa',
-        'opis',
-        'data_zjawiska',
-        'kategoria_id',
-    ];
+    protected $fillable = ['nazwa', 'opis', 'data_zjawiska', 'kategoria_id', 'status'];
+    public $timestamps = false;
 
     public function kategoria()
     {

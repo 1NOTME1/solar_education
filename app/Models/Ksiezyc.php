@@ -10,9 +10,11 @@ class Ksiezyc extends Model
     use HasFactory;
 
     protected $table = 'ksiezyce';
+    protected $fillable = ['nazwa', 'typ', 'masa', 'odleglosc_od_planety', 'opis', 'status', 'planeta_id'];
+    public $timestamps = false;
 
     public function planeta()
     {
-        return $this->belongsTo(Planeta::class, 'planeta_id');
+        return $this->belongsTo(Planeta::class);
     }
 }

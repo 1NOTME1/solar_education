@@ -5,15 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KategorieForum extends Model
+class KategoriaForum extends Model
 {
     use HasFactory;
 
     protected $table = 'kategorie_forum';
-
-    protected $fillable = [
-        'nazwa',
-    ];
+    protected $fillable = ['nazwa'];
+    public $timestamps = false;
 
     public function watki()
     {

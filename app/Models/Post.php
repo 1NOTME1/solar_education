@@ -10,10 +10,12 @@ class Post extends Model
     use HasFactory;
 
     protected $table = 'posty';
+    protected $fillable = ['tresc', 'data_publikacji', 'uzytkownik_id', 'watek_id'];
+    public $timestamps = false;
 
-    public function komentarze()
+    public function uzytkownik()
     {
-        return $this->hasMany(Komentarz::class, 'post_id');
+        return $this->belongsTo(User::class, 'uzytkownik_id');
     }
 
     public function watek()
@@ -21,8 +23,8 @@ class Post extends Model
         return $this->belongsTo(Watek::class, 'watek_id');
     }
 
-    public function uzytkownik()
+    public function komentarze()
     {
-        return $this->belongsTo(Uzytkownik::class, 'uzytkownik_id');
+        return $this->hasMany(Komentarz::class, 'post_id');
     }
 }
