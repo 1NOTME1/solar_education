@@ -12,10 +12,14 @@
             <div class="form-group">
                 <label for="planeta_id">Planeta</label>
                 <select name="planeta_id" class="form-control" required>
-                    @foreach($planety jako $planeta)
+                    @foreach($planety as $planeta)
                         <option value="{{ $planeta->id }}">{{ $planeta->nazwa }}</option>
                     @endforeach
                 </select>
+            </div>
+            <div class="form-group">
+                <label for="typ">Typ</label>
+                <input type="text" name="typ" class="form-control" value="naturalny" required>
             </div>
             <div class="form-group">
                 <label for="opis">Opis</label>

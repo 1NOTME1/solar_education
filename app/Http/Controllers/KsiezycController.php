@@ -10,7 +10,7 @@ class KsiezycController extends Controller
 {
     public function index()
     {
-        $ksiezyce = Ksiezyc::all();
+        $ksiezyce = Ksiezyc::with('planeta')->get(); // Pobierz wszystkie księżyce z ich planetami
         return view('ksiezyce.index', compact('ksiezyce'));
     }
 
@@ -23,45 +23,45 @@ class KsiezycController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nazwa' => 'required',
-            'planeta_id' => 'required|exists:planety,id',
+            'nazwa' => 'required|string|max:255',
+            'planeta_id' => 'required|integer',
+            'opis' => 'nullable|string',
         ]);
 
         Ksiezyc::create($request->all());
 
-        return redirect()->route('ksiezyce.index')
-                        ->with('success', 'Księżyc został dodany.');
+        return redirect()->route('ksiezyce.index')->with('success', 'Księżyc dodany pomyślnie.');
     }
 
-    public function show(Ksiezyc $ksiezyc)
+    public function edit($id)
     {
-        return view('ksiezyce.show', compact('ksiezyc'));
-    }
-
-    public function edit(Ksiezyc $ksiezyc)
-    {
+        $ksiezyc = Ksiezyc::findOrFail($id);
         $planety = Planeta::all();
         return view('ksiezyce.edit', compact('ksiezyc', 'planety'));
     }
 
-    public function update(Request $request, Ksiezyc $ksiezyc)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'nazwa' => 'required',
-            'planeta_id' => 'required|exists:planety,id',
+            'nazwa' => 'required|string|max:255',
+            'planeta_id' => 'required|integer',
+            'opis' => 'nullable|string',
         ]);
 
+        $ksiezyc = Ksiezyc::findOrFail($id);
         $ksiezyc->update($request->all());
 
-        return redirect()->route('ksiezyce.index')
-                        ->with('success', 'Księżyc został zaktualizowany.');
+        return redirect()->route('ksiezyce.index')->with('success', 'Księżyc zaktualizowany pomyślnie.');
     }
 
-    public function destroy(Ksiezyc $ksiezyc)
+    public function destroy($id)
     {
-        $ksiezyc->delete();
+        $ksiezyc = Ksiezyc::findOrFail($id);
+        $ksiezyc->status = 0;
+        $ksiezyc->save();
 
         return redirect()->route('ksiezyce.index')
-                        ->with('success', 'Księżyc został usunięty.');
+                         ->with('success', 'Księżyc został dezaktywowany.');
     }
+
 }

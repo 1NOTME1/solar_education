@@ -19,6 +19,10 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="typ">Typ</label>
+                <input type="text" name="typ" class="form-control" value="{{ $ksiezyc->typ }}" required>
+            </div>
+            <div class="form-group">
                 <label for="opis">Opis</label>
                 <textarea name="opis" class="form-control">{{ $ksiezyc->opis }}</textarea>
             </div>

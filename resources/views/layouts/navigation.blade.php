@@ -22,6 +22,12 @@
                         </x-nav-link>
                     @endif
 
+                    @if (Auth::check() && Auth::user()->role && Auth::user()->role->nazwa == 'Administrator')
+                        <x-nav-link :href="route('ksiezyce.index')" :active="request()->routeIs('ksiezyce.index')" class="text-white">
+                            {{ __('Zarządzaj księzycami') }}
+                        </x-nav-link>
+                    @endif
+
 
                     <x-nav-link :href="route('publicplanety.index')" :active="request()->routeIs('publicplanety.index')" class="text-white">
                         {{ __('Lista planet') }}
