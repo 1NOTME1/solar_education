@@ -9,7 +9,7 @@ class PlanetaController extends Controller
 {
     public function index()
     {
-        $planety = Planeta::all();
+        $planety = Planeta::where('status', 1)->get(); // Pobierz wszystkie aktywne planety
         return view('planety.index', compact('planety'));
     }
 
@@ -30,7 +30,7 @@ class PlanetaController extends Controller
         Planeta::create($request->all());
 
         return redirect()->route('planety.index')
-            ->with('success', 'Planeta została dodana.');
+                         ->with('success', 'Planeta została dodana.');
     }
 
     public function show(Planeta $planeta)
@@ -69,6 +69,4 @@ class PlanetaController extends Controller
         return redirect()->route('planety.index')
                          ->with('success', 'Planeta została dezaktywowana.');
     }
-
-
 }

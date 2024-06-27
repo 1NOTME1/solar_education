@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1>Kategorie Forum</h1>
-        <a href="{{ route('kategorie_forum.create') }}" class="btn btn-primary">Dodaj nową kategorię</a>
+        <a href="{{ route('kategorie_forum.create') }}" class="btn btn-primary mb-3">Dodaj nową kategorię</a>
         <table class="table mt-4">
             <thead>
                 <tr>

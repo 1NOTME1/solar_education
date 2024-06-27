@@ -78,8 +78,6 @@ Route::middleware(['auth', \App\Http\Middleware\EnsureUserHasAdminRole::class])-
     Route::resource('komentarze', KomentarzController::class);
 });
 
-
-
 Route::get('/public/planety', [PublicPlanetaController::class, 'index'])->name('publicplanety.index');
 Route::get('/public/planety/{planeta}', [PublicPlanetaController::class, 'show'])->name('publicplanety.show');
 
@@ -95,3 +93,6 @@ Route::get('/forum/watek/{id}', [ForumController::class, 'showWatek'])->name('fo
 Route::post('/forum/kategoria/{id}/watek', [ForumController::class, 'storeWatek'])->name('forum.watek.store');
 Route::post('/forum/watek/{id}/post', [ForumController::class, 'storePost'])->name('forum.post.store');
 Route::post('/forum/post/{id}/komentarz', [ForumController::class, 'storeKomentarz'])->name('forum.komentarz.store');
+
+Route::delete('/forum/komentarz/{id}', [ForumController::class, 'deleteKomentarz'])->name('forum.komentarz.delete');
+Route::post('/forum/komentarz/{id}/edit', [ForumController::class, 'editKomentarz'])->name('forum.komentarz.edit');

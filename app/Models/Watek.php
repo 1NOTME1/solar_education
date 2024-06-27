@@ -10,8 +10,7 @@ class Watek extends Model
     use HasFactory;
 
     protected $table = 'watki';
-    protected $fillable = ['tytul', 'uzytkownik_id', 'data_utworzenia', 'kategoria_forum_id'];
-    public $timestamps = false;
+    protected $fillable = ['tytul', 'uzytkownik_id', 'data_utworzenia', 'kategoria_forum_id', 'status'];
 
     public function uzytkownik()
     {

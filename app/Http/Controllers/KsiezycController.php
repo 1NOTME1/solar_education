@@ -10,7 +10,7 @@ class KsiezycController extends Controller
 {
     public function index()
     {
-        $ksiezyce = Ksiezyc::with('planeta')->get(); // Pobierz wszystkie księżyce z ich planetami
+        $ksiezyce = Ksiezyc::with('planeta')->where('status', 1)->get(); // Pobierz wszystkie aktywne księżyce z ich planetami
         return view('ksiezyce.index', compact('ksiezyce'));
     }
 
@@ -24,7 +24,7 @@ class KsiezycController extends Controller
     {
         $request->validate([
             'nazwa' => 'required|string|max:255',
-            'planeta_id' => 'required|integer',
+            'planeta_id' => 'required|integer|exists:planety,id',
             'opis' => 'nullable|string',
         ]);
 
@@ -44,7 +44,7 @@ class KsiezycController extends Controller
     {
         $request->validate([
             'nazwa' => 'required|string|max:255',
-            'planeta_id' => 'required|integer',
+            'planeta_id' => 'required|integer|exists:planety,id',
             'opis' => 'nullable|string',
         ]);
 
@@ -60,8 +60,6 @@ class KsiezycController extends Controller
         $ksiezyc->status = 0;
         $ksiezyc->save();
 
-        return redirect()->route('ksiezyce.index')
-                         ->with('success', 'Księżyc został dezaktywowany.');
+        return redirect()->route('ksiezyce.index')->with('success', 'Księżyc został dezaktywowany.');
     }
-
 }

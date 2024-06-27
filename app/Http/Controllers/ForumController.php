@@ -4,32 +4,55 @@ namespace App\Http\Controllers;
 
 use App\Models\KategoriaForum;
 use App\Models\Watek;
-use App\Models\Post;
 use App\Models\Komentarz;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ForumController extends Controller
 {
     public function index()
     {
-        $kategorie = KategoriaForum::all();
-        return view('forum.index', compact('kategorie'));
+        $kategorie_forum = KategoriaForum::withCount('watki')->get();
+        return view('forum.index', compact('kategorie_forum'));
     }
 
-    public function showKategoria($id)
+    public function showKategoria($id, Request $request)
     {
         $kategoria = KategoriaForum::findOrFail($id);
-        $watki = $kategoria->watki;
+
+        $query = $kategoria->watki()->withCount('posty');
+
+        if ($request->has('sort_by')) {
+            switch ($request->input('sort_by')) {
+                case 'newest':
+                    $query->orderBy('data_utworzenia', 'desc');
+                    break;
+                case 'oldest':
+                    $query->orderBy('data_utworzenia', 'asc');
+                    break;
+                case 'most_replied':
+                    $query->orderBy('posty_count', 'desc');
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if ($request->has('tag')) {
+            $query->where('tags', 'like', '%' . $request->input('tag') . '%');
+        }
+
+        $watki = $query->paginate(10);
+
         return view('forum.kategoria', compact('kategoria', 'watki'));
     }
 
     public function showWatek($id)
     {
-        $watek = Watek::findOrFail($id);
-        $posty = $watek->posty; // Pobierz posty związane z wątkiem
-        if ($posty === null) {
-            $posty = collect(); // Inicjalizuj jako pusta kolekcja, jeśli brak postów
-        }
+        $watek = Watek::with(['uzytkownik', 'posty.uzytkownik', 'posty.komentarze.uzytkownik'])->findOrFail($id);
+        $posty = $watek->posty;
+
         return view('forum.watek', compact('watek', 'posty'));
     }
 
@@ -88,5 +111,34 @@ class ForumController extends Controller
 
         $post = Post::findOrFail($postId);
         return redirect()->route('forum.watek', $post->watek_id);
+    }
+
+    public function deleteKomentarz($id)
+    {
+        $komentarz = Komentarz::findOrFail($id);
+
+        if ($komentarz->uzytkownik_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Nie masz uprawnień do usunięcia tego komentarza.');
+        }
+
+        $komentarz->delete();
+
+        return redirect()->back()->with('success', 'Komentarz został usunięty.');
+    }
+
+    public function editKomentarz(Request $request, $id)
+    {
+        $komentarz = Komentarz::findOrFail($id);
+
+        if ($komentarz->uzytkownik_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Nie masz uprawnień do edytowania tego komentarza.');
+        }
+
+        $komentarz->update([
+            'tresc' => $request->input('tresc'),
+            'data_edycji' => now()
+        ]);
+
+        return redirect()->back()->with('success', 'Komentarz został zaktualizowany.');
     }
 }
