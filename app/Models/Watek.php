@@ -11,7 +11,7 @@ class Watek extends Model
 
     protected $table = 'watki';
     protected $fillable = ['tytul', 'uzytkownik_id', 'data_utworzenia', 'kategoria_forum_id', 'status'];
-
+    public $timestamps = false;
     public function uzytkownik()
     {
         return $this->belongsTo(User::class, 'uzytkownik_id');

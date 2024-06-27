@@ -11,6 +11,7 @@ class Post extends Model
 
     protected $table = 'posty';
     protected $fillable = ['tresc', 'data_publikacji', 'uzytkownik_id', 'watek_id'];
+    public $timestamps = false;
 
     public function uzytkownik()
     {

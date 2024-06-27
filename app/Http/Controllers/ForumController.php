@@ -39,10 +39,6 @@ class ForumController extends Controller
             }
         }
 
-        if ($request->has('tag')) {
-            $query->where('tags', 'like', '%' . $request->input('tag') . '%');
-        }
-
         $watki = $query->paginate(10);
 
         return view('forum.kategoria', compact('kategoria', 'watki'));
@@ -68,6 +64,7 @@ class ForumController extends Controller
             'uzytkownik_id' => auth()->id(),
             'data_utworzenia' => now(),
             'kategoria_forum_id' => $kategoriaId,
+            'status' => 1, // jeśli chcesz ustawić domyślny status
         ]);
 
         Post::create([
