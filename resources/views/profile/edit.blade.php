@@ -4,12 +4,10 @@
             {{ __('Profile') }}
         </h2>
 
-
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                     <div class="max-w-xl">
-                        <!-- Testowe dane w formularzu aktualizacji profilu -->
                         <h3 class="text-gray-900 dark:text-gray-100">Update Profile Information</h3>
                         <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
                             @csrf
@@ -18,14 +16,14 @@
                             <div>
                                 <x-input-label for="name" :value="__('Name')" />
                                 <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
-                                    value="Jan Kowalski" required autofocus autocomplete="name" />
+                                    value="" required autofocus autocomplete="name" />
                                 <x-input-error class="mt-2" :messages="$errors->get('name')" />
                             </div>
 
                             <div>
                                 <x-input-label for="email" :value="__('Email')" />
                                 <x-text-input id="email" name="email" type="email" class="mt-1 block w-full"
-                                    value="jan.kowalski@example.com" required autocomplete="username" />
+                                    value="" required autocomplete="username" />
                                 <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
                                 @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
@@ -62,7 +60,6 @@
 
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                     <div class="max-w-xl">
-                        <!-- Testowe dane w formularzu aktualizacji hasła -->
                         <h3 class="text-gray-900 dark:text-gray-100">Update Password</h3>
                         <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
                             @csrf
@@ -103,7 +100,6 @@
 
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                     <div class="max-w-xl">
-                        <!-- Testowe dane w formularzu usuwania konta -->
                         <h3 class="text-gray-900 dark:text-gray-100">Delete Account</h3>
                         <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
                             @csrf
@@ -157,35 +153,27 @@
         background-color: #1a202c;
         color: #cbd5e0;
     }
-
     body.dark-mode h2 {
         color: #e2e8f0;
     }
-
     body.dark-mode .bg-white {
         background-color: #2d3748;
     }
-
     body.dark-mode .text-gray-900 {
         color: #212121;
     }
-
     body.dark-mode .text-gray-600 {
         color: #a0aec0;
     }
-
     body.dark-mode .border-gray-200 {
         border-color: #4a5568;
     }
-
     body.dark-mode .text-sm {
         color: #a0aec0;
     }
-
     body.dark-mode .bg-gray-800 {
         background-color: #2d3748;
     }
-
     body.dark-mode .shadow {
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }

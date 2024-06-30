@@ -17,6 +17,6 @@ class Role extends Model
 
     public function uzytkownicy()
     {
-        return $this->hasMany(Uzytkownik::class, 'rola_id');
+        return $this->hasMany(User::class, 'rola_id');
     }
 }

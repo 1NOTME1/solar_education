@@ -10,12 +10,15 @@ class PublicKsiezycController extends Controller
 {
     public function index()
     {
-        $ksiezyce = Ksiezyc::all();
+        $ksiezyce = Ksiezyc::where('status', 1)->get();
         return view('public.ksiezyce.index', compact('ksiezyce'));
     }
 
     public function show(Ksiezyc $ksiezyc)
     {
+        if ($ksiezyc->status != 1) {
+            abort(404);
+        }
         $planeta = Planeta::find($ksiezyc->planeta_id);
         return view('public.ksiezyce.show', compact('ksiezyc', 'planeta'));
     }

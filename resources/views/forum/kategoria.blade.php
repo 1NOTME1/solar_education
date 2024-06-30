@@ -1,6 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div class="container">
+    <h1 class="forum-header">{{ $kategoria->nazwa }}</h1>
+    <form method="POST" action="{{ route('forum.watek.store', $kategoria->id) }}" class="forum-form">
+        @csrf
+        <div>
+            <label for="tytul">Tytuł</label>
+            <input type="text" id="tytul" name="tytul" required>
+        </div>
+        <div>
+            <label for="tresc">Treść</label>
+            <textarea id="tresc" name="tresc" required></textarea>
+        </div>
+        <button type="submit">Utwórz wątek</button>
+    </form>
+    <h2>Wątki</h2>
+    <div class="forum-threads">
+        @foreach ($watki as $watek)
+            <a href="{{ route('forum.watek', $watek->id) }}">{{ $watek->tytul }} ({{ $watek->posty_count }} postów)</a>
+        @endforeach
+    </div>
+    <div class="pagination">
+        {{ $watki->links() }}
+    </div>
+</div>
+@endsection
+
 <style>
     .container {
         background-color: #f8f9fa;
@@ -102,7 +129,6 @@
         border: none;
     }
 
-    /* Dark mode styles */
     body.dark-mode .container {
         background-color: #1f1f1f;
         color: #e0e0e0;
@@ -162,32 +188,6 @@
         border: none;
     }
 </style>
-
-<div class="container">
-    <h1 class="forum-header">{{ $kategoria->nazwa }}</h1>
-    <form method="POST" action="{{ route('forum.watek.store', $kategoria->id) }}" class="forum-form">
-        @csrf
-        <div>
-            <label for="tytul">Tytuł</label>
-            <input type="text" id="tytul" name="tytul" required>
-        </div>
-        <div>
-            <label for="tresc">Treść</label>
-            <textarea id="tresc" name="tresc" required></textarea>
-        </div>
-        <button type="submit">Utwórz wątek</button>
-    </form>
-    <h2>Wątki</h2>
-    <div class="forum-threads">
-        @foreach ($watki as $watek)
-            <a href="{{ route('forum.watek', $watek->id) }}">{{ $watek->tytul }} ({{ $watek->posty_count }} postów)</a>
-        @endforeach
-    </div>
-    <div class="pagination">
-        {{ $watki->links() }}
-    </div>
-</div>
-@endsection
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

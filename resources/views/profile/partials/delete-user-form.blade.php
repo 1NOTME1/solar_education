@@ -1,54 +1,3 @@
-<style>
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-        font-weight: bold;
-        color: #333;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #ddd;
-        border-radius: 0.375rem;
-        background-color: #fff;
-        color: #333;
-        transition: border-color 0.2s;
-    }
-
-    .form-control:focus {
-        border-color: #007bff;
-    }
-
-    .btn-danger {
-        background-color: #dc3545;
-        color: #fff;
-        padding: 0.75rem 1.25rem;
-        border-radius: 0.375rem;
-        border: none;
-        cursor: pointer;
-    }
-
-    .btn-danger:hover {
-        background-color: #a71d2a;
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        color: #fff;
-        padding: 0.75rem 1.25rem;
-        border-radius: 0.375rem;
-        border: none;
-        cursor: pointer;
-    }
-
-    .btn-secondary:hover {
-        background-color: #565e64;
-    }
-</style>
-
 <section class="space-y-6">
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -104,3 +53,54 @@
         </form>
     </x-modal>
 </section>
+
+<style>
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 0.375rem;
+        background-color: #fff;
+        color: #333;
+        transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+        padding: 0.75rem 1.25rem;
+        border-radius: 0.375rem;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-danger:hover {
+        background-color: #a71d2a;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: #fff;
+        padding: 0.75rem 1.25rem;
+        border-radius: 0.375rem;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+        background-color: #565e64;
+    }
+</style>

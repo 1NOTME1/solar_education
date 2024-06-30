@@ -10,7 +10,7 @@ class KsiezycController extends Controller
 {
     public function index()
     {
-        $ksiezyce = Ksiezyc::with('planeta')->where('status', 1)->get(); // Pobierz wszystkie aktywne księżyce z ich planetami
+        $ksiezyce = Ksiezyc::with('planeta')->where('status', 1)->get();
         return view('ksiezyce.index', compact('ksiezyce'));
     }
 

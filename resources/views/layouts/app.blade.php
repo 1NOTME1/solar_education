@@ -34,7 +34,6 @@
 
         <!-- Page Content -->
         <main>
-            <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
             @yield('content')
         </main>
     </div>

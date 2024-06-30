@@ -25,13 +25,13 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\PublicKsiezycController;
 use App\Http\Controllers\PublicZjawiskoController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\HomeController;
 
-// Strona powitalna
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-// Trasy logowania, rejestracji, resetowania hasła dostępne dla gości
+//logowania, rejestracji resetowania hasła
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
@@ -43,12 +43,11 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 });
 
-// Dashboard - dostępny tylko po uwierzytelnieniu i weryfikacji
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Trasy zarządzania profilem użytkownika, z uwierzytelnieniem
+//zarządzanie profilem użytkownika, z uwierzytelnieniem
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -64,7 +63,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
-// Trasy dla różnych modeli, z ograniczeniem dostępu dla administratorów
+// Trasy dla modeli z ograniczeniem dostępu dla administratorów
 Route::middleware(['auth', \App\Http\Middleware\EnsureUserHasAdminRole::class])->group(function () {
     Route::resource('role', RoleController::class);
     Route::resource('kategorie_zjawisk', KategorieZjawiskController::class);
@@ -96,3 +95,8 @@ Route::post('/forum/post/{id}/komentarz', [ForumController::class, 'storeKomenta
 
 Route::delete('/forum/komentarz/{id}', [ForumController::class, 'deleteKomentarz'])->name('forum.komentarz.delete');
 Route::post('/forum/komentarz/{id}/edit', [ForumController::class, 'editKomentarz'])->name('forum.komentarz.edit');
+
+Route::delete('/forum/post/{id}', [ForumController::class, 'deletePost'])->name('forum.post.delete');
+Route::post('/forum/post/{id}/edit', [ForumController::class, 'editPost'])->name('forum.post.edit');
+
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');

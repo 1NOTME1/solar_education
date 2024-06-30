@@ -9,7 +9,7 @@ class PlanetaController extends Controller
 {
     public function index()
     {
-        $planety = Planeta::where('status', 1)->get(); // Pobierz wszystkie aktywne planety
+        $planety = Planeta::where('status', 1)->get();
         return view('planety.index', compact('planety'));
     }
 

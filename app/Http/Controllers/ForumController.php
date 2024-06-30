@@ -64,7 +64,7 @@ class ForumController extends Controller
             'uzytkownik_id' => auth()->id(),
             'data_utworzenia' => now(),
             'kategoria_forum_id' => $kategoriaId,
-            'status' => 1, // jeśli chcesz ustawić domyślny status
+            'status' => 1,
         ]);
 
         Post::create([
@@ -137,5 +137,34 @@ class ForumController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Komentarz został zaktualizowany.');
+    }
+
+    public function deletePost($id)
+    {
+        $post = Post::findOrFail($id);
+
+        if ($post->uzytkownik_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Nie masz uprawnień do usunięcia tego postu.');
+        }
+
+        $post->delete();
+
+        return redirect()->back()->with('success', 'Post został usunięty.');
+    }
+
+    public function editPost(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
+
+        if ($post->uzytkownik_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Nie masz uprawnień do edytowania tego postu.');
+        }
+
+        $post->update([
+            'tresc' => $request->input('tresc'),
+            'data_edycji' => now()
+        ]);
+
+        return redirect()->route('forum.watek', $post->watek_id)->with('success', 'Post został zaktualizowany.');
     }
 }

@@ -1,41 +1,3 @@
-<style>
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-        font-weight: bold;
-        color: #333;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #ddd;
-        border-radius: 0.375rem;
-        background-color: #fff;
-        color: #333;
-        transition: border-color 0.2s;
-    }
-
-    .form-control:focus {
-        border-color: #007bff;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        color: #fff;
-        padding: 0.75rem 1.25rem;
-        border-radius: 0.375rem;
-        border: none;
-        cursor: pointer;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
-</style>
-
 <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
     @csrf
     @method('patch')
@@ -74,3 +36,41 @@
         <button type="submit" class="btn-primary">{{ __('Save') }}</button>
     </div>
 </form>
+
+<style>
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 0.375rem;
+        background-color: #fff;
+        color: #333;
+        transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        padding: 0.75rem 1.25rem;
+        border-radius: 0.375rem;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>

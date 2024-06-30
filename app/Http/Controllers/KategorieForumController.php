@@ -28,7 +28,7 @@ class KategorieForumController extends Controller
             'nazwa' => $request->nazwa,
         ]);
 
-        return redirect()->route('kategorie_forum.index')->with('success', 'Kategoria forum została dodana.');
+        return redirect()->route('forum.index')->with('success', 'Kategoria forum została dodana');
     }
 
     public function show(KategoriaForum $kategorie_forum)
@@ -51,13 +51,13 @@ class KategorieForumController extends Controller
             'nazwa' => $request->nazwa,
         ]);
 
-        return redirect()->route('kategorie_forum.index')->with('success', 'Kategoria forum została zaktualizowana.');
+        return redirect()->route('forum.index')->with('success', 'Kategoria forum została zaktualizowana');
     }
 
     public function destroy(KategoriaForum $kategorie_forum)
     {
         $kategorie_forum->delete();
 
-        return redirect()->route('kategorie_forum.index')->with('success', 'Kategoria forum została usunięta.');
+        return redirect()->route('forum.index')->with('success', 'Kategoria forum została usunięta');
     }
 }

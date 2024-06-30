@@ -1,6 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div class="container">
+    <h1>Lista księżyców</h1>
+    <div class="search-box">
+        <input type="text" placeholder="Szukaj księżyca..." class="search-input">
+        <button class="search-button">Szukaj</button>
+    </div>
+    <ul>
+        @foreach ($ksiezyce as $ksiezyc)
+            <li>
+                <a href="{{ route('publicksiezyce.show', $ksiezyc->id) }}">{{ $ksiezyc->nazwa }}</a>
+            </li>
+        @endforeach
+    </ul>
+</div>
+
 <style>
     .container {
         background-color: #f8f9fa;
@@ -43,12 +59,12 @@
         text-decoration: none;
         font-size: 20px;
         display: block;
-        font-weight: 500; /* Dodano dla lepszego wyróżnienia tekstu */
+        font-weight: 500;
     }
 
     a:hover {
         text-decoration: underline;
-        color: #0056b3; /* Ciemniejszy kolor dla lepszego kontrastu podczas hover */
+        color: #0056b3;
     }
 
     .search-box {
@@ -78,7 +94,6 @@
         background-color: #0056b3;
     }
 
-    /* Dark mode styles */
     body.dark-mode .container {
         background-color: #1f1f1f;
         color: #e0e0e0;
@@ -111,24 +126,8 @@
     }
 </style>
 
-<div class="container">
-    <h1>Lista księżyców</h1>
-    <div class="search-box">
-        <input type="text" placeholder="Szukaj księżyca..." class="search-input">
-        <button class="search-button">Szukaj</button>
-    </div>
-    <ul>
-        @foreach ($ksiezyce as $ksiezyc)
-            <li>
-                <a href="{{ route('publicksiezyce.show', $ksiezyc->id) }}">{{ $ksiezyc->nazwa }}</a>
-            </li>
-        @endforeach
-    </ul>
-</div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Funkcja do filtrowania elementów
         document.querySelector('.search-input').addEventListener('keyup', function() {
             let filter = this.value.toLowerCase();
             let listItems = document.querySelectorAll('ul li');
@@ -138,7 +137,6 @@
             });
         });
 
-        // Skrypt do przełączania trybu dark mode
         const toggleButton = document.getElementById('dark-mode-toggle');
         if (toggleButton) {
             toggleButton.addEventListener('click', function() {

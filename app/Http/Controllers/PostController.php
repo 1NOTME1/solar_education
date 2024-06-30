@@ -33,7 +33,7 @@ class PostController extends Controller
         Post::create($request->all());
 
         return redirect()->route('posty.index')
-                        ->with('success', 'Post został dodany.');
+            ->with('success', 'Post został dodany.');
     }
 
     public function show(Post $post)
@@ -59,7 +59,7 @@ class PostController extends Controller
         $post->update($request->all());
 
         return redirect()->route('posty.index')
-                        ->with('success', 'Post został zaktualizowany.');
+            ->with('success', 'Post został zaktualizowany.');
     }
 
     public function destroy(Post $post)
@@ -67,6 +67,6 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('posty.index')
-                        ->with('success', 'Post został usunięty.');
+            ->with('success', 'Post został usunięty.');
     }
 }

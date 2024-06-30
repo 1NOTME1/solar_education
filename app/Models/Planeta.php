@@ -11,7 +11,7 @@ class Planeta extends Model
 
     protected $table = 'planety';
     protected $fillable = ['nazwa', 'typ', 'masa', 'odleglosc_od_slonca', 'opis', 'status'];
-    public $timestamps = false; // Dodano linijkę wyłączającą automatyczne timestamps
+    public $timestamps = false;
 
     public function ksiezyce()
     {
