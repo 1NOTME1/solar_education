@@ -72,8 +72,23 @@
             <input type="text" name="typ" class="form-control" value="{{ $ksiezyc->typ }}" required>
         </div>
         <div class="form-group mb-3">
+            <label for="masa">Masa</label>
+            <input type="number" step="0.01" name="masa" class="form-control" value="{{ $ksiezyc->masa }}" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="odleglosc_od_planety">Odległość od planety</label>
+            <input type="number" name="odleglosc_od_planety" class="form-control" value="{{ $ksiezyc->odleglosc_od_planety }}" required>
+        </div>
+        <div class="form-group mb-3">
             <label for="opis">Opis</label>
             <textarea name="opis" class="form-control">{{ $ksiezyc->opis }}</textarea>
+        </div>
+        <div class="form-group mb-3">
+            <label for="status">Status</label>
+            <select name="status" class="form-control" required>
+                <option value="1" @if($ksiezyc->status == 1) selected @endif>Aktywna</option>
+                <option value="0" @if($ksiezyc->status == 0) selected @endif>Nieaktywna</option>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Zaktualizuj</button>
     </form>

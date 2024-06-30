@@ -118,29 +118,29 @@
                 <th>Masa</th>
                 <th>Odległość od Słońca</th>
                 <th>Opis</th>
+                <th>Status</th>
                 <th>Akcje</th>
             </tr>
         </thead>
         <tbody>
             @foreach($planety as $planeta)
-                @if($planeta->status)
-                    <tr>
-                        <td>{{ $planeta->id }}</td>
-                        <td>{{ $planeta->nazwa }}</td>
-                        <td>{{ $planeta->typ }}</td>
-                        <td>{{ $planeta->masa }}</td>
-                        <td>{{ $planeta->odleglosc_od_slonca }}</td>
-                        <td class="short-description">{{ $planeta->opis }}</td>
-                        <td>
-                            <a href="{{ route('planety.edit', $planeta->id) }}" class="btn btn-warning">Edytuj</a>
-                            <form action="{{ route('planety.destroy', $planeta->id) }}" method="POST" style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Usuń</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endif
+                <tr>
+                    <td>{{ $planeta->id }}</td>
+                    <td>{{ $planeta->nazwa }}</td>
+                    <td>{{ $planeta->typ }}</td>
+                    <td>{{ $planeta->masa }}</td>
+                    <td>{{ $planeta->odleglosc_od_slonca }}</td>
+                    <td class="short-description">{{ $planeta->opis }}</td>
+                    <td>{{ $planeta->status == 1 ? 'Aktywna' : 'Nieaktywna' }}</td>
+                    <td>
+                        <a href="{{ route('planety.edit', $planeta->id) }}" class="btn btn-warning">Edytuj</a>
+                        <form action="{{ route('planety.destroy', $planeta->id) }}" method="POST" style="display:inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>

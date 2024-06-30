@@ -114,8 +114,12 @@
             <tr>
                 <th>ID</th>
                 <th>Nazwa</th>
+                <th>Typ</th>
+                <th>Masa</th>
+                <th>Odległość od planety</th>
                 <th>Planeta</th>
                 <th>Opis</th>
+                <th>Status</th>
                 <th>Akcje</th>
             </tr>
         </thead>
@@ -125,8 +129,12 @@
                     <tr>
                         <td>{{ $ksiezyc->id }}</td>
                         <td>{{ $ksiezyc->nazwa }}</td>
+                        <td>{{ $ksiezyc->typ }}</td>
+                        <td>{{ $ksiezyc->masa }}</td>
+                        <td>{{ $ksiezyc->odleglosc_od_planety }}</td>
                         <td>{{ $ksiezyc->planeta->nazwa }}</td>
                         <td class="short-description">{{ $ksiezyc->opis }}</td>
+                        <td>{{ $ksiezyc->status == 1 ? 'Aktywna' : 'Nieaktywna' }}</td>
                         <td>
                             <a href="{{ route('ksiezyce.edit', $ksiezyc->id) }}" class="btn btn-warning">Edytuj</a>
                             <form action="{{ route('ksiezyce.destroy', $ksiezyc->id) }}" method="POST" style="display:inline-block;">
