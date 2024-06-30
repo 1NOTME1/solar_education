@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Komentarz;
 use App\Models\Post;
-use App\Models\Uzytkownik;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class KomentarzController extends Controller
@@ -18,7 +18,7 @@ class KomentarzController extends Controller
     public function create()
     {
         $posty = Post::all();
-        $uzytkownicy = Uzytkownik::all();
+        $uzytkownicy = User::all();
         return view('komentarze.create', compact('posty', 'uzytkownicy'));
     }
 
@@ -44,7 +44,7 @@ class KomentarzController extends Controller
     public function edit(Komentarz $komentarz)
     {
         $posty = Post::all();
-        $uzytkownicy = Uzytkownik::all();
+        $uzytkownicy = User::all();
         return view('komentarze.edit', compact('komentarz', 'posty', 'uzytkownicy'));
     }
 

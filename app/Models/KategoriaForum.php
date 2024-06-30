@@ -11,7 +11,6 @@ class KategoriaForum extends Model
 
     protected $table = 'kategorie_forum';
     protected $fillable = ['nazwa'];
-    public $timestamps = false;
 
     public function watki()
     {

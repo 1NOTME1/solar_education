@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Watek;
-use App\Models\Uzytkownik;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -18,7 +18,7 @@ class PostController extends Controller
     public function create()
     {
         $watki = Watek::all();
-        $uzytkownicy = Uzytkownik::all();
+        $uzytkownicy = User::all();
         return view('posty.create', compact('watki', 'uzytkownicy'));
     }
 
@@ -44,7 +44,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $watki = Watek::all();
-        $uzytkownicy = Uzytkownik::all();
+        $uzytkownicy = User::all();
         return view('posty.edit', compact('post', 'watki', 'uzytkownicy'));
     }
 

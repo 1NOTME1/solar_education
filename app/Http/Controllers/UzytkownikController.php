@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Uzytkownik;
+use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -10,7 +10,7 @@ class UzytkownikController extends Controller
 {
     public function index()
     {
-        $uzytkownicy = Uzytkownik::all();
+        $uzytkownicy = User::all();
         return view('uzytkownicy.index', compact('uzytkownicy'));
     }
 
@@ -29,7 +29,7 @@ class UzytkownikController extends Controller
             'rola_id' => 'required|exists:role,id',
         ]);
 
-        $uzytkownik = new Uzytkownik($request->all());
+        $uzytkownik = new User($request->all());
         $uzytkownik->haslo = bcrypt($request->haslo);
         $uzytkownik->save();
 
@@ -37,18 +37,18 @@ class UzytkownikController extends Controller
                         ->with('success', 'Użytkownik został dodany.');
     }
 
-    public function show(Uzytkownik $uzytkownik)
+    public function show(User $uzytkownik)
     {
         return view('uzytkownicy.show', compact('uzytkownik'));
     }
 
-    public function edit(Uzytkownik $uzytkownik)
+    public function edit(User $uzytkownik)
     {
         $role = Role::all();
         return view('uzytkownicy.edit', compact('uzytkownik', 'role'));
     }
 
-    public function update(Request $request, Uzytkownik $uzytkownik)
+    public function update(Request $request, User $uzytkownik)
     {
         $request->validate([
             'nazwa_uzytkownika' => 'required',
@@ -66,7 +66,7 @@ class UzytkownikController extends Controller
                         ->with('success', 'Użytkownik został zaktualizowany.');
     }
 
-    public function destroy(Uzytkownik $uzytkownik)
+    public function destroy(User $uzytkownik)
     {
         $uzytkownik->delete();
 

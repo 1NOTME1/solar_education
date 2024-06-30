@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Watek;
-use App\Models\KategorieForum;
-use App\Models\Uzytkownik;
+use App\Models\KategoriaForum;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class WatekController extends Controller
@@ -17,8 +17,8 @@ class WatekController extends Controller
 
     public function create()
     {
-        $kategorie_forum = KategorieForum::all();
-        $uzytkownicy = Uzytkownik::all();
+        $kategorie_forum = KategoriaForum::all();
+        $uzytkownicy = User::all();
         return view('watki.create', compact('kategorie_forum', 'uzytkownicy'));
     }
 
@@ -43,8 +43,8 @@ class WatekController extends Controller
 
     public function edit(Watek $watek)
     {
-        $kategorie_forum = KategorieForum::all();
-        $uzytkownicy = Uzytkownik::all();
+        $kategorie_forum = KategoriaForum::all();
+        $uzytkownicy = User::all();
         return view('watki.edit', compact('watek', 'kategorie_forum', 'uzytkownicy'));
     }
 
